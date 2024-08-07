@@ -1,5 +1,8 @@
 const pool = require("./db");
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { user } = require("pg/lib/defaults");
+
 
 //Agregar nuevo usuario
 const agregarUsuario = async (req, res) => {
@@ -24,6 +27,42 @@ const agregarUsuario = async (req, res) => {
     }
 };
 
+//login
+const iniciarSesion = async (req, res) => {
+    const {
+        email,
+        contrasena,
+    } = req.body;
+
+    try {
+        const result = await pool.query(
+            'SELECT * FROM usuario WHERE EMAIL = $1',
+            [email]
+        );
+        if (result.rows.length === 0) {
+            return res.json({ mensaje: 'correo Incorrecto' });
+        }
+        const usuario = result.rows[0];
+        const contrasenaCorrecta = await bcrypt.compare(contrasena, usuario.contrasena);
+        if (contrasenaCorrecta) {
+            const token = jwt.sign({ id: usuario.id }, process.env.JWT_SECRET, { expiresIn: '2h' });
+            res.json({
+                mensaje: 'Bienvenide',
+                id: usuario.id,
+                nombre: usuario.nombre,
+                token,
+                email: usuario.email
+            });
+        } else {
+            res.json({ mensaje: 'algo anda mal' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error iniciar secion');
+    }
+}
+
 module.exports = {
+    iniciarSesion,
     agregarUsuario
 };

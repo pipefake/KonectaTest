@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
     res.send('Hola mundo!');
 });
 
-app.use('/registro', userRoutes);
+app.use('/', userRoutes);
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
