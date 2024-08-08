@@ -18,8 +18,19 @@ const agregarUsuario = async (req, res) => {
             'INSERT INTO usuario (NOMBRE, EMAIL, CONTRASENA) VALUES ($1, $2, $3) RETURNING ID',
             [nombre, email, hash]
         );
+        const usuario = result.rows[0];
+        const token = jwt.sign(
+            { id: usuario.id, email: usuario.email },
+            'secret_key',
+            { expiresIn: '1h' }
+        );
+
         res.status(201).json({
-            id: result.rows[0].id
+            mensaje: 'Registro exitoso',
+            id: usuario.id,
+            nombre: usuario.nombre,
+            email: usuario.email,
+            token
         });
     } catch (err) {
         console.error(err);

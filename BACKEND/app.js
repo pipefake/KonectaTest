@@ -1,9 +1,15 @@
 const express = require('express');
 const app = express();
 const userRoutes = require('./src/routes/userRoutes');
+const cors = require('cors');
+
+
+app.use(cors({
+    origin: 'http://localhost:3000',
+}));
 
 app.use(express.json());
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 app.get('/', (req, res) => {
     res.send('Hola mundo!');
