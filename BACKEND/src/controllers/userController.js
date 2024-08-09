@@ -21,7 +21,7 @@ const agregarUsuario = async (req, res) => {
 
     if (!validator.isEmail(email)) {
         return res.status(400).json({
-            mensaje: 'correo no válido'
+            mensaje: 'Correo Incorrecto'
         });
     }
 
@@ -35,7 +35,7 @@ const agregarUsuario = async (req, res) => {
         );
         if (existeCorreo.rows.length > 0) {
             return res.status(400).json({
-                mensaje: 'Correo already exist'
+                mensaje: 'Correo ya existe'
             });
         }
 
@@ -48,7 +48,7 @@ const agregarUsuario = async (req, res) => {
         const usuario = result.rows[0];
         const token = jwt.sign(
             { id: usuario.id, email: usuario.email },
-            'secret_key',
+            process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
 
@@ -61,7 +61,7 @@ const agregarUsuario = async (req, res) => {
         });
     } catch (err) {
         console.error(err);
-        res.status(500).send('Error al registra usuario');
+        res.status(500).json('Error al registra usuario');
     }
 };
 
@@ -80,7 +80,7 @@ const iniciarSesion = async (req, res) => {
 
     if (!validator.isEmail(email)) {
         return res.status(400).json({
-            mensaje: 'Correo inválido'
+            mensaje: 'Correo Incorrecto'
         });
     }
 
@@ -90,7 +90,7 @@ const iniciarSesion = async (req, res) => {
             [email]
         );
         if (result.rows.length === 0) {
-            return res.json({ mensaje: 'correo Incorrecto' });
+            return res.status(400).json({ mensaje: 'Correo Incorrecto' });
         }
         const usuario = result.rows[0];
         const contrasenaCorrecta = await bcrypt.compare(contrasena, usuario.contrasena);
@@ -104,11 +104,11 @@ const iniciarSesion = async (req, res) => {
                 email: usuario.email
             });
         } else {
-            res.json({ mensaje: 'algo anda mal' });
+            res.status(400).json({ mensaje: 'Contraseña incorrecta' });
         }
     } catch (err) {
         console.error(err);
-        res.status(500).send('Error iniciar seccion');
+        res.status(500).json({ mensaje: 'Error al iniciar sesion' });
     }
 }
 
