@@ -15,7 +15,7 @@ const agregarUsuario = async (req, res) => {
 
     if (!email || !contrasena) {
         return res.status(400).json({
-            mensaje: 'Correo y contrasña son requeridos'
+            mensaje: 'Correo y contraseña son requeridos'
         });
     }
 
