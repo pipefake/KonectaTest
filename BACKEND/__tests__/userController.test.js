@@ -29,6 +29,32 @@ describe('userController Authentification', () => {
             mensaje: 'Correo y contraseña son requeridos'
         });
     });
+    test('Should return an error if the email already exists', async () => {
+        const req = {
+            body: {
+                nombre: 'Test User',
+                email: 'felipe@felipe.com',
+                contrasena: '123456'
+            }
+        };
+
+        const res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        }
+
+        pool.query.mockResolvedValueOnce({
+            rows: [{ email: 'felipe@felipe.com' }]
+        });
+
+
+
+        await agregarUsuario(req, res);
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({
+            mensaje: 'Correo already exist'
+        });
+    });
 }
 
 )

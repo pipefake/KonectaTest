@@ -29,6 +29,18 @@ const agregarUsuario = async (req, res) => {
     const hash = await bcrypt.hash(contrasena, 10);
     try {
 
+        const existeCorreo = await pool.query(
+            'SELECT * FROM usuario WHERE EMAIL = $1',
+            [email]
+        );
+        if (existeCorreo.rows.length > 0) {
+            return res.status(400).json({
+                mensaje: 'Correo already exist'
+            });
+        }
+
+
+
         const result = await pool.query(
             'INSERT INTO usuario (NOMBRE, EMAIL, CONTRASENA) VALUES ($1, $2, $3) RETURNING ID',
             [nombre, email, hash]
@@ -60,6 +72,18 @@ const iniciarSesion = async (req, res) => {
         contrasena,
     } = req.body;
 
+    if (!email || !contrasena) {
+        return res.status(400).json({
+            mensaje: 'Correo y contraseña son requeridos'
+        });
+    }
+
+    if (!validator.isEmail(email)) {
+        return res.status(400).json({
+            mensaje: 'Correo inválido'
+        });
+    }
+
     try {
         const result = await pool.query(
             'SELECT * FROM usuario WHERE EMAIL = $1',
@@ -84,7 +108,7 @@ const iniciarSesion = async (req, res) => {
         }
     } catch (err) {
         console.error(err);
-        res.status(500).send('Error iniciar secion');
+        res.status(500).send('Error iniciar seccion');
     }
 }
 
