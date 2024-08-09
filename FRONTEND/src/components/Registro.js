@@ -11,6 +11,7 @@ const Registro = () => {
     const [email, setEmail] = useState('');
     const [contrasena, setContrasena] = useState('');
     const [nombre, setNombre] = useState('');
+    const [mensaje, setMensaje] = useState('');
 
     const navigate = useNavigate();
 
@@ -30,14 +31,18 @@ const Registro = () => {
             const token = respuesta.data.token;
 
             if (mensaje !== 'Registro exitoso') {
-                console.log('Algo anda mal');
+                console.log('Usuario no registrado');
+                setMensaje('Usuario no registrado');
             } else {
+                setMensaje('Registro exitoso');
                 console.log('Registro');
                 sessionStorage.setItem('token', token)
                 navigate('/login');
             }
 
         } catch (err) {
+
+            setMensaje('Registro Error');
             console.error(err.response ? err.response.data : err.message);
         }
 
@@ -79,7 +84,7 @@ const Registro = () => {
                         Registrar
                     </button >
                 </form>
-
+                {mensaje && <p>{mensaje}</p>}
                 <a className='poppins-semibold'>Crear una nueva cuenta.</a>
             </div>
         </div>

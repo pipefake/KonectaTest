@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
 import fotoFelipeJimenez from '../multimedia/logoKonecta.png';
-import Axios from 'axios';
+const Axios = require('axios');
+
 
 
 const Login = () => {
