@@ -2,6 +2,7 @@ const pool = require("./db");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { user } = require("pg/lib/defaults");
+const validator = require('validator');
 
 
 //Agregar nuevo usuario
@@ -11,6 +12,20 @@ const agregarUsuario = async (req, res) => {
         email,
         contrasena,
     } = req.body;
+
+    if (!email || !contrasena) {
+        return res.status(400).json({
+            mensaje: 'Correo y contrasña son requeridos'
+        });
+    }
+
+    if (!validator.isEmail(email)) {
+        return res.status(400).json({
+            mensaje: 'correo no válido'
+        });
+    }
+
+
     const hash = await bcrypt.hash(contrasena, 10);
     try {
 
