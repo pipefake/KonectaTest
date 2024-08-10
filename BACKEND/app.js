@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const userRoutes = require('./src/routes/userRoutes');
+const adminRoutes = require('./src/routes/adminRoutes');
 const cors = require('cors');
 
 
@@ -16,6 +17,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/', userRoutes);
+app.use('/api', adminRoutes);
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
