@@ -10,7 +10,7 @@ describe(' Admincontroller test', () => {
     afterEach(() => {
         jest.clearAllMocks();
     });
-
+    //readEmployees
     test('Should list employees', async () => {
         const mockEmployees = [
             {
@@ -42,6 +42,51 @@ describe(' Admincontroller test', () => {
             employees: mockEmployees
         });
     });
+    //Test for 'registerEmployee
+    test('Should register an employee', async () => {
+
+        const req = {
+            body: {
+                fecha_ingreso: '2024-08-09T05:00:00.000Z',
+                nombre: 'andrés gomez',
+                salario: 800000
+            }
+        }
+        const res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        }
+
+        pool.query.mockResolvedValueOnce({
+            rows: [{ nombre: 'andrés gomez' }]
+        });
+
+        await registerEmployee(req, res);
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({
+            mensaje: 'Empleado ya existe'
+        });
+
+
+    });
+    //Test for deleteEmployee
+    test('should delete an employee and return success', async () => {
+        const req = {
+            params: { id: 1 }
+        };
+        const res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        };
+
+        pool.query.mockResolvedValueOnce({ rowCount: 1 });
+        await deleteEmployee(req, res);
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({
+            mensaje: 'Deleted Employee'
+        });
+    });
+
 
 
 }
