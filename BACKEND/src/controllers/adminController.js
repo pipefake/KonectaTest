@@ -5,6 +5,22 @@ const { user } = require("pg/lib/defaults");
 const validator = require('validator');
 const { json } = require("express/lib/response");
 
+//list of employee
+const readEmployees = async (req, res) => {
+    try {
+        const listOfEmployees = await pool.query(
+            'SELECT * FROM empleado'
+        );
+        const employees = listOfEmployees.rows;
+        res.status(201).json({
+            mensaje: 'Okay',
+            employees
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json('Error al listar empleados');
+    }
+}
 
 //add a new employee
 const registerEmployee = async (req, res) => {
@@ -94,5 +110,6 @@ const deleteEmployee = async (req, res) => {
 module.exports = {
     registerEmployee,
     deleteEmployee,
+    readEmployees
 };
 
