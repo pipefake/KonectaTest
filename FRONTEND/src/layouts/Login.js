@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
 import fotoFelipeJimenez from '../multimedia/logoKonecta.png';
-const Axios = require('axios');
+import Axios from 'axios';
 
 
 
@@ -59,6 +59,7 @@ const Login = () => {
                         onChange={(e) => setEmail(e.target.value)} />
                     <input id='contrasena'
                         className='input'
+                        type='password'
                         name='contrasena'
                         placeholder='Contraseña'
                         onChange={(e) => setContrasena(e.target.value)} />

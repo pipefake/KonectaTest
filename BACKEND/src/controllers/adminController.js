@@ -86,7 +86,7 @@ const deleteEmployee = async (req, res) => {
     const id = req.params.id;
     try {
         const result = await pool.query(
-            'DELETE FROM empleado WHERE ID = $1 RETURNING ID, FECHA_INGRESO, NOMBRE,SALARIO', [id]
+            'DELETE FROM empleado WHERE ID = $1 RETURNING *', [id]
         );
 
         if (result.rowCount === 0) {

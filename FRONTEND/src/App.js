@@ -2,11 +2,12 @@
 import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './components/Home';
-import Login from './components/Login';
-import Registro from './components/Registro';
-import Inicio from './components/Inicio';
-import ProtectedRoute from './components/ProtectectedRoute';
+import Home from './layouts/Home';
+import Login from './layouts/Login';
+import Registro from './layouts/Registro';
+import Inicio from './layouts/Inicio';
+import ProtectedRoute from './layouts/ProtectectedRoute';
+import Empleados from './layouts/Empleados';
 
 
 
@@ -19,7 +20,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/registro' element={<Registro />} />
         <Route element={<ProtectedRoute />}>
-          <Route path='/inicio' element={<Inicio />} />
+          <Route path='/inicio' element={<Empleados />} />
         </Route>
       </Routes>
     </Router>
