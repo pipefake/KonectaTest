@@ -8,6 +8,7 @@ import Registro from './layouts/Registro';
 import Inicio from './layouts/Inicio';
 import ProtectedRoute from './layouts/ProtectectedRoute';
 import Empleados from './layouts/Empleados';
+import RegistrarEmpleado from './layouts/RegistrarEmpleado';
 
 
 
@@ -21,6 +22,7 @@ function App() {
         <Route path='/registro' element={<Registro />} />
         <Route element={<ProtectedRoute />}>
           <Route path='/inicio' element={<Empleados />} />
+          <Route path='/inicio/agregarEmpleado' element={<RegistrarEmpleado />} />
         </Route>
       </Routes>
     </Router>

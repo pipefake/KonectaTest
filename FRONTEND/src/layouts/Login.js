@@ -40,9 +40,9 @@ const Login = () => {
     }
 
     return (
-        <div className='Home'>
+        <div className='Home ingresarHome'>
             <div>
-                <img className='foto' src={fotoFelipeJimenez} alt='foto de felipe jimenez' />
+                <img className='' src={fotoFelipeJimenez} alt='foto de felipe jimenez' />
                 <h2 className='largeText blueTittle poppins-semibold'>
                     Ingresar
                 </h2>

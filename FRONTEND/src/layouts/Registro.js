@@ -49,9 +49,9 @@ const Registro = () => {
     }
 
     return (
-        <div className='Home'>
+        <div className='Home ingresarHome'>
             <div>
-                <img className='foto' src={fotoFelipeJimenez} alt='foto de felipe jimenez' />
+                <img className='' src={fotoFelipeJimenez} alt='foto de felipe jimenez' />
                 <h2 className='largeText blueTittle poppins-semibold'>
                     Registrarse
                 </h2>
@@ -85,7 +85,7 @@ const Registro = () => {
                     </button >
                 </form>
                 {mensaje && <p>{mensaje}</p>}
-                <a className='poppins-semibold'>Crear una nueva cuenta.</a>
+                <a className='poppins-semibold'>Ya tengo una cuenta.</a>
             </div>
         </div>
     )

@@ -5,7 +5,7 @@ const { user } = require("pg/lib/defaults");
 const validator = require('validator');
 const { json } = require("express/lib/response");
 
-//list of employee
+//list of employee el
 const readEmployees = async (req, res) => {
     const page = parseInt(req.query.page || 1);
     const limit = parseInt(req.query.limit) || 5;

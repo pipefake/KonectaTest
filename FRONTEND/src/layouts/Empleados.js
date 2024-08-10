@@ -5,6 +5,9 @@ import Axios from 'axios';
 import { MdDelete } from "react-icons/md";
 import { IoAddCircleSharp } from "react-icons/io5";
 import ReactPaginate from 'react-paginate';
+import Header from '../components/header';
+
+
 const Empleados = () => {
     const [employees, setEmployees] = useState([]);
     const [pageCount, setPageCount] = useState(0);
@@ -44,7 +47,7 @@ const Empleados = () => {
 
 
     const handleEdit = () => {
-        navigate('edit');
+        navigate('agregarEmpleado');
     };
 
     const handleDelete = async (id) => {
@@ -68,24 +71,25 @@ const Empleados = () => {
 
     return (
         <div className='Home'>
-            <button onClick={() => handleEdit()}>
-                <IoAddCircleSharp size={24} color="red" />
+            <button className='btnAdd' onClick={() => handleEdit()}>
+                <IoAddCircleSharp size={60} color="#1F41BB" />
             </button>
-            <div>
+            <div className='contEmpleados'>
+                <Header text="empleados" />
                 {
                     employees.map((empleado, i) => (
-                        <div key={i}>
-                            <h1>{empleado.nombre}</h1>
-                            <button onClick={() => handleDelete(empleado.id)}>
-                                <MdDelete size={24} color="red" />
+                        <div className='divEmpleado' key={i}>
+                            <p>{empleado.nombre}</p>
+                            <button className='trash' onClick={() => handleDelete(empleado.id)}>
+                                <MdDelete size={24} color="black" />
                             </button>
                         </div>
                     ))
                 }
             </div>
             <ReactPaginate
-                previousLabel={"Previous"}
-                nextLabel={"Next"}
+                previousLabel={"<"}
+                nextLabel={">"}
                 breakLabel={"..."}
                 pageCount={pageCount}
                 marginPagesDisplayed={2}
