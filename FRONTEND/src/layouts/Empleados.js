@@ -4,19 +4,22 @@ import './Home.css';
 import Axios from 'axios';
 import { MdDelete } from "react-icons/md";
 import { IoAddCircleSharp } from "react-icons/io5";
-
+import ReactPaginate from 'react-paginate';
 const Empleados = () => {
     const [employees, setEmployees] = useState([]);
-
+    const [pageCount, setPageCount] = useState(0);
+    const [actual, setActual] = useState(0);
+    const [cantidad] = useState(4);
     useEffect(() => {
         getEmployees();
-    }, []);
+    }, [actual]);
 
     const getEmployees = async () => {
         const token = sessionStorage.getItem('token');
         try {
             const respuesta = await Axios.get('http://localhost:3001/api/', {
-                headers: { 'authorization': token }
+                headers: { 'authorization': token },
+                params: { page: actual + 1, limit: cantidad }
             });
 
 
@@ -26,13 +29,16 @@ const Empleados = () => {
             } else {
                 sessionStorage.setItem('token', token)
                 setEmployees(respuesta.data.employees || []);
+                setPageCount(respuesta.data.totalPages || 1);
 
             }
         } catch (err) {
             console.error(err.response ? err.response.data : err.message);
         }
     }
-
+    const handlePageChange = (pagina) => {
+        setActual(pagina.selected);
+    }
 
     const navigate = useNavigate();
 
@@ -77,6 +83,25 @@ const Empleados = () => {
                     ))
                 }
             </div>
+            <ReactPaginate
+                previousLabel={"Previous"}
+                nextLabel={"Next"}
+                breakLabel={"..."}
+                pageCount={pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageChange}
+                containerClassName={"pagination"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link"}
+                previousClassName={"page-item"}
+                previousLinkClassName={"page-link"}
+                nextClassName={"page-item"}
+                nextLinkClassName={"page-link"}
+                breakClassName={"page-item"}
+                breakLinkClassName={"page-link"}
+                activeClassName={"active"}
+            />
         </div>
     );
 };

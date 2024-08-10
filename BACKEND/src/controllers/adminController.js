@@ -7,14 +7,25 @@ const { json } = require("express/lib/response");
 
 //list of employee
 const readEmployees = async (req, res) => {
+    const page = parseInt(req.query.page || 1);
+    const limit = parseInt(req.query.limit) || 5;
     try {
+        const offset = (page - 1) * limit;
+
+        const countResult = await pool.query('SELECT COUNT(*) FROM EMPLEADO');
+        const totalEmployees = parseInt(countResult.rows[0].count);
+
         const listOfEmployees = await pool.query(
-            'SELECT * FROM empleado'
+            'SELECT * FROM empleado LIMIT $1 OFFSET $2',
+            [limit, offset]
         );
         const employees = listOfEmployees.rows;
-        res.status(201).json({
+
+        const totalPages = Math.ceil(totalEmployees / limit)
+        res.status(200).json({
             mensaje: 'Okay',
-            employees
+            employees,
+            totalPages
         });
     } catch (err) {
         console.error(err);
