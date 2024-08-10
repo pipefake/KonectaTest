@@ -12,7 +12,7 @@ const Empleados = () => {
     const [employees, setEmployees] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [actual, setActual] = useState(0);
-    const [cantidad] = useState(4);
+    const [cantidad] = useState(6);
     useEffect(() => {
         getEmployees();
     }, [actual]);
